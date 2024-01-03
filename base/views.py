@@ -13,9 +13,11 @@ class UserRegistrationView(generics.CreateAPIView):
 
 class UserLoginView(APIView):
     def post(self, request):
-        user = authenticate(email=request.data['email'], password=request.data['password'])
+        user = authenticate(email="collins@gmail.com", password="12345678") #authenticate(email=request.data['email'], password=request.data['password'])
         if user:
+            
             token, created = Token.objects.get_or_create(user=user)
             return Response({'token': token.key})
+
         else:
             return Response({'error': 'Invalid credentials'}, status=401)

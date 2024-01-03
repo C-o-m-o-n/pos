@@ -25,9 +25,9 @@ SECRET_KEY = 'django-insecure--$fr69g3jfvw$ldu-q@-ttwte3*xnc5^%fp7z*$7hy+a6d(*g=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://opulent-funicular-wj6p9p9vpr52ggj9-8000.app.github.dev/", 'localhost']
+ALLOWED_HOSTS = ["https://opulent-funicular-wj6p9p9vpr52ggj9-8000.app.github.dev/", 'localhost', 'http://127.0.0.1:8080/']
 
-CSRF_TRUSTED_ORIGINS=["https://opulent-funicular-wj6p9p9vpr52ggj9-8000.app.github.dev/", 'https://localhost:8000']
+CSRF_TRUSTED_ORIGINS=["https://opulent-funicular-wj6p9p9vpr52ggj9-8000.app.github.dev/", 'https://localhost:8000', 'http://127.0.0.1:8080/']
 
 # Application definition
 
