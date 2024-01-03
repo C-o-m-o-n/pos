@@ -25,8 +25,9 @@ SECRET_KEY = 'django-insecure--$fr69g3jfvw$ldu-q@-ttwte3*xnc5^%fp7z*$7hy+a6d(*g=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["https://opulent-funicular-wj6p9p9vpr52ggj9-8000.app.github.dev/", 'localhost']
 
+CSRF_TRUSTED_ORIGINS=["https://opulent-funicular-wj6p9p9vpr52ggj9-8000.app.github.dev/", 'https://localhost:8000']
 
 # Application definition
 
@@ -44,6 +45,14 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'base.CustomUser'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -55,6 +64,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'pos.urls'
+
+
 
 TEMPLATES = [
     {
