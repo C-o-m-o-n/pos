@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,9 +26,15 @@ SECRET_KEY = 'django-insecure--$fr69g3jfvw$ldu-q@-ttwte3*xnc5^%fp7z*$7hy+a6d(*g=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://opulent-funicular-wj6p9p9vpr52ggj9-8000.app.github.dev/", 'localhost', 'http://127.0.0.1:8080/']
+ALLOWED_HOSTS = [ 'localhost', '127.0.0.1']
 
-CSRF_TRUSTED_ORIGINS=["https://opulent-funicular-wj6p9p9vpr52ggj9-8000.app.github.dev/", 'https://localhost:8000', 'http://127.0.0.1:8080/']
+CSRF_TRUSTED_ORIGINS=['http://127.0.0.1:5500','http://127.0.0.1:8080']
+
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:5500",
+    'http://127.0.0.1:8080'
+]
+
 
 # Application definition
 
@@ -40,18 +47,24 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'base',
+    'rest_framework.authtoken',
+    
+    'corsheaders',
 ]
 
-AUTH_USER_MODEL = 'base.CustomUser'
+# AUTH_USER_MODEL = 'base.CustomUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
+    
 }
 
-
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -61,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'pos.urls'
