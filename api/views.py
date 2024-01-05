@@ -5,13 +5,14 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from .models import CustomUser as User
 from rest_framework.authtoken.models import Token
 
 from .serializers import CustomUserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
-def get_tokens_for_user(user):
+def get_jwt_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
 
     return {
@@ -24,7 +25,7 @@ def register(request):
     serializer = CustomUserSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        user = User.objects.get(username=request.data['username'])
+        user = User.objects.get(email=request.data['email'])
         user.set_password(request.data['password'])
         user.save()
         token = Token.objects.create(user=user)
@@ -36,14 +37,14 @@ def register(request):
 
 @api_view(['POST'])
 def login(request):
-    user = get_object_or_404(User, username=request.data['username'])
+    user = get_object_or_404(User, email=request.data['email'])
     if not user.check_password(request.data['password']):
         return Response("missing user", status=status.HTTP_404_NOT_FOUND)
     token, created = Token.objects.get_or_create(user=user)
     serializer = CustomUserSerializer(user)
 
     #jwt-token
-    jwt_token = get_tokens_for_user(user)
+    jwt_token = get_jwt_tokens_for_user(user)
 
     return Response({'token': token.key, 'user': serializer.data, 'jwt_token': jwt_token})
 
@@ -52,6 +53,3 @@ def login(request):
 @permission_classes([IsAuthenticated])
 def test_token(request):
     return Response("passed!")
-
-
-
